@@ -16,9 +16,8 @@ defmodule Day4 do
       |> String.split()
       |> Enum.reduce(MapSet.new, &validate(&1, &2, validation_mode))
     end)
-    |> IO.inspect
     |> Enum.count(&valid_passport?/1)
-    |> IO.inspect
+    |> IO.inspect(label: "Count")
   end
 
   def part1, do: run()
@@ -80,8 +79,9 @@ defmodule Day4 do
   end
 
   @valid_eye_colors ~W(amb blu brn gry grn hzl oth)
-  def validate({"ecl", value}, valid_fields, :strict) when value in @valid_eye_colors, do: MapSet.put(valid_fields, "ecl")
-  # def validate({"ecl", _value}, valid_fields, :strict), do: valid_fields
+  def validate({"ecl", value}, valid_fields, :strict) when value in @valid_eye_colors do
+    MapSet.put(valid_fields, "ecl")
+  end
 
   def validate({"pid", value}, valid_fields, :strict) do
     if String.match?(value, ~r/^[0-9]{9}$/) do
